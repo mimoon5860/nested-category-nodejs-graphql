@@ -4,7 +4,11 @@ export interface ICategoryInput {
 }
 
 export interface IUpdateCategoryInput {
-  active: boolean;
+  id: string;
+  name?: string;
+  parentId?: String;
+  slug?: string;
+  active?: boolean;
 }
 
 export interface ICategory extends ICategoryInput {

@@ -20,6 +20,22 @@ class CategoryService {
     };
   }
 
+  public async findParentCategory(category: any) {
+    if (!category.parentId) {
+    }
+  }
+
+  // search a category service
+  public async searchCategory(name: string) {
+    const category = await CategoryModel.findOne({ name });
+
+    return {
+      success: true,
+      message: "",
+      data: "",
+    };
+  }
+
   // create a category service
   public async createCategory(category: ICategoryInput) {
     console.log({ category });
@@ -37,11 +53,50 @@ class CategoryService {
   }
 
   // update a category service
-  public async updateCategory(status: IUpdateCategoryInput) {
-    console.log({ status });
+  public async updateCategory(categoryUpdate: IUpdateCategoryInput) {
+    const { id, ...rest } = categoryUpdate;
+
+    if (rest.name) {
+      rest.slug = slug(rest.name);
+    }
+
+    const res = await CategoryModel.updateOne({ _id: id }, { ...rest });
+    if (!res.modifiedCount) {
+      return {
+        success: false,
+        message: "No category found with this id",
+      };
+    }
+
     return {
       success: true,
       message: "Category updated",
+    };
+  }
+
+  // deactive a category service
+  public async deactiveCategory(id: String) {
+    const category = await CategoryModel.findById(id);
+    if (!category) {
+      return {
+        success: false,
+        message: "No Category found with this id",
+      };
+    }
+    category.active = false;
+    category.save();
+
+    const childCategories = await CategoryModel.find({
+      parentId: category._id.toString(),
+    });
+
+    childCategories.forEach(async (category: any) => {
+      await this.deactiveCategory(category._id.toString());
+    });
+
+    return {
+      success: true,
+      message: "Category deactivated successfully",
     };
   }
 }

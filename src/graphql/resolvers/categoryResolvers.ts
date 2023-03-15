@@ -18,6 +18,25 @@ const categoryResolvers = {
         throw new UserInputError(err.message);
       }
     },
+
+    // search a category
+    searchCategory: async (
+      _parent: any,
+      { searchCategoryInput }: { searchCategoryInput: { name: string } }
+    ) => {
+      try {
+        const result = await categoryService.searchCategory(
+          searchCategoryInput.name
+        );
+        if (result.success) {
+          return result.data;
+        } else {
+          throw new UserInputError(result.message);
+        }
+      } catch (err: any) {
+        throw new UserInputError(err.message);
+      }
+    },
   },
 
   // Mutations
@@ -49,6 +68,27 @@ const categoryResolvers = {
       try {
         const result = await categoryService.updateCategory(
           updateCategoryInput
+        );
+        if (result.success) {
+          return result;
+        } else {
+          throw new UserInputError(result.message);
+        }
+      } catch (err: any) {
+        throw new UserInputError(err.message);
+      }
+    },
+
+    // deactive a category
+    deactiveCategory: async (
+      _parent: any,
+      {
+        deactiveCategoryInput,
+      }: { deactiveCategoryInput: { categoryId: string } }
+    ) => {
+      try {
+        const result = await categoryService.deactiveCategory(
+          deactiveCategoryInput.categoryId
         );
         if (result.success) {
           return result;

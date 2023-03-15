@@ -20,24 +20,44 @@ const typeDefs = gql`
     parentId: ID
   }
 
+  type CommonResType {
+    success: Boolean!
+    message: String!
+  }
+
+  input SearchCategoryInput {
+    name: String!
+  }
+
   input CreateCategoryInput {
     name: String!
-    parentId: ID
+    parentId: String
   }
 
   input UpdateCategoryInput {
+    id: String!
+    name: String
+    parentId: String
     active: Boolean
+  }
+
+  input DeactiveCategoryInput {
+    categoryId: String!
   }
 
   #Query types
   type Query {
     getAllCategory: [Category]
+    searchCategory(searchCategoryInput: SearchCategoryInput): [Category]
   }
 
   #Mutation types
   type Mutation {
     createACategory(createCategoryInput: CreateCategoryInput): SingleCategory
-    updateACategory(updateCategoryInput: UpdateCategoryInput): Category
+    updateACategory(updateCategoryInput: UpdateCategoryInput): CommonResType
+    deactiveCategory(
+      deactiveCategoryInput: DeactiveCategoryInput
+    ): CommonResType
   }
 `;
 export default typeDefs;

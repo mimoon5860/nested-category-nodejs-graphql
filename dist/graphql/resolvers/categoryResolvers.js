@@ -33,6 +33,21 @@ const categoryResolvers = {
                 throw new apollo_server_express_1.UserInputError(err.message);
             }
         }),
+        // search a category
+        searchCategory: (_parent, { searchCategoryInput }) => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                const result = yield categoryService.searchCategory(searchCategoryInput.name);
+                if (result.success) {
+                    return result.data;
+                }
+                else {
+                    throw new apollo_server_express_1.UserInputError(result.message);
+                }
+            }
+            catch (err) {
+                throw new apollo_server_express_1.UserInputError(err.message);
+            }
+        }),
     },
     // Mutations
     Mutation: {
@@ -55,6 +70,21 @@ const categoryResolvers = {
         updateACategory: (_parent, { updateCategoryInput }) => __awaiter(void 0, void 0, void 0, function* () {
             try {
                 const result = yield categoryService.updateCategory(updateCategoryInput);
+                if (result.success) {
+                    return result;
+                }
+                else {
+                    throw new apollo_server_express_1.UserInputError(result.message);
+                }
+            }
+            catch (err) {
+                throw new apollo_server_express_1.UserInputError(err.message);
+            }
+        }),
+        // deactive a category
+        deactiveCategory: (_parent, { deactiveCategoryInput, }) => __awaiter(void 0, void 0, void 0, function* () {
+            try {
+                const result = yield categoryService.deactiveCategory(deactiveCategoryInput.categoryId);
                 if (result.success) {
                     return result;
                 }

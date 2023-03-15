@@ -8,6 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -28,6 +39,23 @@ class CategoryService {
             };
         });
     }
+    findParentCategory(category) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!category.parentId) {
+            }
+        });
+    }
+    // search a category service
+    searchCategory(name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const category = yield categoryModel_1.default.findOne({ name });
+            return {
+                success: true,
+                message: "",
+                data: "",
+            };
+        });
+    }
     // create a category service
     createCategory(category) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -42,12 +70,46 @@ class CategoryService {
         });
     }
     // update a category service
-    updateCategory(status) {
+    updateCategory(categoryUpdate) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log({ status });
+            const { id } = categoryUpdate, rest = __rest(categoryUpdate, ["id"]);
+            if (rest.name) {
+                rest.slug = (0, slug_1.default)(rest.name);
+            }
+            const res = yield categoryModel_1.default.updateOne({ _id: id }, Object.assign({}, rest));
+            if (!res.modifiedCount) {
+                return {
+                    success: false,
+                    message: "No category found with this id",
+                };
+            }
             return {
                 success: true,
                 message: "Category updated",
+            };
+        });
+    }
+    // deactive a category service
+    deactiveCategory(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const category = yield categoryModel_1.default.findById(id);
+            if (!category) {
+                return {
+                    success: false,
+                    message: "No Category found with this id",
+                };
+            }
+            category.active = false;
+            category.save();
+            const childCategories = yield categoryModel_1.default.find({
+                parentId: category._id.toString(),
+            });
+            childCategories.forEach((category) => __awaiter(this, void 0, void 0, function* () {
+                yield this.deactiveCategory(category._id.toString());
+            }));
+            return {
+                success: true,
+                message: "Category deactivated successfully",
             };
         });
     }
