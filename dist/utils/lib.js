@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Lib {
+    // filter all category hierarchically
     static filterCategory(categories, parentId) {
         const allCategories = [];
         let category;

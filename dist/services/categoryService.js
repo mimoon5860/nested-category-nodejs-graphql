@@ -23,9 +23,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const categoryModel_1 = __importDefault(require("../models/categoryModel"));
 const lib_1 = __importDefault(require("../utils/lib"));
 const slug_1 = __importDefault(require("slug"));
-const categoryModel_1 = __importDefault(require("../models/categoryModel"));
 class CategoryService {
     // get all category service
     getAllCategory() {

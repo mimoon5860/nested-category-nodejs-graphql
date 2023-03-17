@@ -1,7 +1,7 @@
-import { Model } from "mongoose";
 import { ICategory } from "./types";
 
 class Lib {
+  // filter all category hierarchically
   public static filterCategory(categories: ICategory[], parentId?: string) {
     const allCategories: any = [];
     let category;

@@ -1,3 +1,4 @@
+import CategoryModel from "../models/categoryModel";
 import Lib from "../utils/lib";
 import {
   ICategory,
@@ -5,7 +6,6 @@ import {
   IUpdateCategoryInput,
 } from "../utils/types";
 import slug from "slug";
-import CategoryModel from "../models/categoryModel";
 
 class CategoryService {
   // get all category service
