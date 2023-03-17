@@ -39,20 +39,30 @@ class CategoryService {
             };
         });
     }
-    findParentCategory(category) {
+    // get a single category service
+    singleCategory(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!category.parentId) {
+            let category = yield categoryModel_1.default.findById(id);
+            if (!category) {
+                return {
+                    success: false,
+                    message: "No category found with this id",
+                };
             }
-        });
-    }
-    // search a category service
-    searchCategory(name) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const category = yield categoryModel_1.default.findOne({ name });
+            const categories = [category];
+            while (category) {
+                category = yield categoryModel_1.default.findById(category.parentId);
+                if (category) {
+                    categories.push(category);
+                }
+                else {
+                    category = null;
+                }
+            }
+            const allCates = yield lib_1.default.filterCategory(categories);
             return {
                 success: true,
-                message: "",
-                data: "",
+                data: allCates,
             };
         });
     }

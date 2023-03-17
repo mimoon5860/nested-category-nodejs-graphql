@@ -20,19 +20,32 @@ class CategoryService {
     };
   }
 
-  public async findParentCategory(category: any) {
-    if (!category.parentId) {
+  // get a single category service
+  public async singleCategory(id: string) {
+    let category: any = await CategoryModel.findById(id);
+    if (!category) {
+      return {
+        success: false,
+        message: "No category found with this id",
+      };
     }
-  }
 
-  // search a category service
-  public async searchCategory(name: string) {
-    const category = await CategoryModel.findOne({ name });
+    const categories: Model<ICategory>[] = [category];
+
+    while (category) {
+      category = await CategoryModel.findById(category.parentId);
+      if (category) {
+        categories.push(category);
+      } else {
+        category = null;
+      }
+    }
+
+    const allCates = await Lib.filterCategory(categories);
 
     return {
       success: true,
-      message: "",
-      data: "",
+      data: allCates,
     };
   }
 

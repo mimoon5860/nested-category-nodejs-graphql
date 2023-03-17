@@ -13,4 +13,4 @@ Also Typescript language.
 - User can update a category.
 - User can get all category and all category will fetch hierarchically.
 - User can deactive a category and all the child category (if any) will be deactived also.
-- User can search a category and all the parent category will also come with that category hierarchically.
+- User can get a single category and all the parent category will also come with that category hierarchically.

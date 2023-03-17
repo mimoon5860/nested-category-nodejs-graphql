@@ -25,8 +25,8 @@ const typeDefs = gql`
     message: String!
   }
 
-  input SearchCategoryInput {
-    name: String!
+  input FindSingleCategory {
+    id: ID!
   }
 
   input CreateCategoryInput {
@@ -48,7 +48,7 @@ const typeDefs = gql`
   #Query types
   type Query {
     getAllCategory: [Category]
-    searchCategory(searchCategoryInput: SearchCategoryInput): [Category]
+    getSingleCategory(singleCategory: FindSingleCategory): [Category]
   }
 
   #Mutation types

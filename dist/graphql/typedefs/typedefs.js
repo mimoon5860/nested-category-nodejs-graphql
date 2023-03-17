@@ -27,8 +27,8 @@ const typeDefs = (0, apollo_server_express_1.gql) `
     message: String!
   }
 
-  input SearchCategoryInput {
-    name: String!
+  input FindSingleCategory {
+    id: ID!
   }
 
   input CreateCategoryInput {
@@ -50,7 +50,7 @@ const typeDefs = (0, apollo_server_express_1.gql) `
   #Query types
   type Query {
     getAllCategory: [Category]
-    searchCategory(searchCategoryInput: SearchCategoryInput): [Category]
+    getSingleCategory(singleCategory: FindSingleCategory): [Category]
   }
 
   #Mutation types

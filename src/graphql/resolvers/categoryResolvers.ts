@@ -19,19 +19,17 @@ const categoryResolvers = {
       }
     },
 
-    // search a category
-    searchCategory: async (
+    // get a single category
+    getSingleCategory: async (
       _parent: any,
-      { searchCategoryInput }: { searchCategoryInput: { name: string } }
+      { singleCategory }: { singleCategory: { id: string } }
     ) => {
       try {
-        const result = await categoryService.searchCategory(
-          searchCategoryInput.name
-        );
+        const result = await categoryService.singleCategory(singleCategory.id);
         if (result.success) {
           return result.data;
         } else {
-          throw new UserInputError(result.message);
+          throw new UserInputError(result.message || "");
         }
       } catch (err: any) {
         throw new UserInputError(err.message);

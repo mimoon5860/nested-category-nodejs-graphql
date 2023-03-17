@@ -33,15 +33,15 @@ const categoryResolvers = {
                 throw new apollo_server_express_1.UserInputError(err.message);
             }
         }),
-        // search a category
-        searchCategory: (_parent, { searchCategoryInput }) => __awaiter(void 0, void 0, void 0, function* () {
+        // get a single category
+        getSingleCategory: (_parent, { singleCategory }) => __awaiter(void 0, void 0, void 0, function* () {
             try {
-                const result = yield categoryService.searchCategory(searchCategoryInput.name);
+                const result = yield categoryService.singleCategory(singleCategory.id);
                 if (result.success) {
                     return result.data;
                 }
                 else {
-                    throw new apollo_server_express_1.UserInputError(result.message);
+                    throw new apollo_server_express_1.UserInputError(result.message || "");
                 }
             }
             catch (err) {

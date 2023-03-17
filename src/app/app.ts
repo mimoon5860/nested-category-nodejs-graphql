@@ -49,6 +49,7 @@ class App {
     }
   }
 
+  // init start route
   private initRouter() {
     this.app.use("/", (req: Request, res: Response) => {
       res.send(`🚀 Server ready at port: ${this.PORT}`);
