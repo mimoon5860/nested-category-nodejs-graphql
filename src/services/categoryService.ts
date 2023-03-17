@@ -6,12 +6,11 @@ import {
 } from "../utils/types";
 import slug from "slug";
 import CategoryModel from "../models/categoryModel";
-import { Model } from "mongoose";
 
 class CategoryService {
   // get all category service
   public async getAllCategory() {
-    const cates: Model<ICategory>[] = await CategoryModel.find();
+    const cates: ICategory[] = await CategoryModel.find();
     const data = Lib.filterCategory(cates);
     return {
       success: true,
@@ -22,7 +21,8 @@ class CategoryService {
 
   // get a single category service
   public async singleCategory(id: string) {
-    let category: any = await CategoryModel.findById(id);
+    let category: ICategory | null = await CategoryModel.findById(id);
+
     if (!category) {
       return {
         success: false,
@@ -30,7 +30,7 @@ class CategoryService {
       };
     }
 
-    const categories: Model<ICategory>[] = [category];
+    const categories: ICategory[] = [category];
 
     while (category) {
       category = await CategoryModel.findById(category.parentId);

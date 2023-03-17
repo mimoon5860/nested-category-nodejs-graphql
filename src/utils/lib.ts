@@ -2,10 +2,7 @@ import { Model } from "mongoose";
 import { ICategory } from "./types";
 
 class Lib {
-  public static filterCategory(
-    categories: Model<ICategory>[],
-    parentId?: string
-  ) {
+  public static filterCategory(categories: ICategory[], parentId?: string) {
     const allCategories: any = [];
     let category;
     if (!parentId) {
